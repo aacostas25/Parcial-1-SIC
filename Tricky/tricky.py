@@ -155,7 +155,7 @@ def minimax(board):
        v = math.inf
        mejorJugada = ()
        for action in actions(board):
-        puntaje = min_value(result(board,action))
+        puntaje = max_value(result(board,action))
         if puntaje < v:
             v = puntaje
             mejorJugada = action
@@ -164,7 +164,7 @@ def minimax(board):
        v = -math.inf
        mejorJugada = ()
        for action in actions(board):
-        puntaje = max_value(result(board,action))
+        puntaje = min_value(result(board,action))
         if v < puntaje:
             puntaje = v
             mejorJugada = action
