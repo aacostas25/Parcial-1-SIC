@@ -26,18 +26,20 @@ def player(board):
     #Siempre empieza la X
     if board==initial_state():
        return X
-    contX = 0
-    contO = 0
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == X:
-               contX+=1
-            elif board[i][j] == O:
-                contO+=1
-    if contO>contX:
-       return X
     else:
-       return O
+      contX = 0
+      contO = 0
+      for i in range(3):
+          for j in range(3):
+              if board[i][j] == X:
+                contX+=1
+              if board[i][j] == O:
+                contO+=1
+      #esto permite que empiece O
+      if contO>=contX:
+        return X
+      else:
+        return O
 
 
 
@@ -53,9 +55,9 @@ def actions(board):
 def result(board, action):
     NewBoard = copy.deepcopy(board)
     if player(board) == X:
-        NewBoard[action[0]][action[1]] = X
-    else:
-        NewBoard[action[0]][action[1]] = O
+      NewBoard[action[0]][action[1]] = X
+    elif player(board)==O:
+      NewBoard[action[0]][action[1]] = O
     return NewBoard
 
 
@@ -92,49 +94,37 @@ def utility(board):
       if board[i][0] == X and board[i][1] == X and board[i][2] == X:
         if player(board) == X:
           return 1
-        else:
-          return -1
     #Comprobar lineas verticales
     for j in range(0,3):
       if board[0][j] == X and board[1][j] == X and board[2][j] == X:
         if player(board) == X:
           return 1
-        else:
-          return -1
     #Comprobar diagonales
     if (board[0][0] == X and board[1][1] == X and board[2][2] == X) or (board[2][0] == X and board[1][1] == X and board[0][2] == X):
       if player(board) == X:
         return 1
-      else:
-        return -1
 
     #Para O
     #Comprobar lineas horizontales
     for i in range(0,3):
       if board[i][0] == O and board[i][1] == O and board[i][2] == O:
-        if player(board) == X:
+        if player(board) == O:
           return -1
-        else:
-          return 1
     #Comprobar lineas verticales
     for j in range(0,3):
       if board[0][j] == O and board[1][j] == O and board[2][j] == O:
-        if player(board) == X:
+        if player(board) == O:
           return -1
-        else:
-          return 1
     #Comprobar diagonales
     if (board[0][0] == O and board[1][1] == O and board[2][2] == O) or (board[2][0] == O and board[1][1] == O and board[0][2] == O):
-      if player(board) == X:
+      if player(board) == O:
         return -1
-      else:
-        return 1
 
     # Como el return automaticaente termina la lectura del código si se llega a esta linea es porque nadie ganó en el estado terminal
     return 0
-    """
-    Retorna 1 si X ganó el juego, -1 si O ganó, y 0 si empatan.
-    """
+
+    #Retorna 1 si X ganó el juego, -1 si O ganó, y 0 si empatan.
+    
 
 
 def min_value(board):
@@ -161,8 +151,9 @@ def minimax(board):
     if terminal(board):
        return None
     elif player(board) == X:
+    #else:
        v = math.inf
-       mejorJugada = []
+       mejorJugada = ()
        for action in actions(board):
         puntaje = min_value(result(board,action))
         if puntaje < v:
@@ -171,18 +162,16 @@ def minimax(board):
         return mejorJugada
     elif player(board) == O:
        v = -math.inf
-       mejorJugada = []
+       mejorJugada = ()
        for action in actions(board):
         puntaje = max_value(result(board,action))
-        if v > puntaje:
+        if v < puntaje:
             puntaje = v
             mejorJugada = action
         return mejorJugada
     
+    #Retorna la acción que optimiza la elección del jugador.
 
-    """
-    Retorna la acción que optimiza la elección del jugador.
-    """
 
 
 
