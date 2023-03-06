@@ -24,8 +24,8 @@ def player(board):
     #Retorna quien es el jugador que debe jugar.
    
     #Siempre empieza la X
-  # if board==initial_state():
-       #return X
+    if board==initial_state():
+       return X
     contX = 0
     contO = 0
     for i in range(3):
