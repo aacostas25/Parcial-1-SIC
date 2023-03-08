@@ -66,10 +66,10 @@ def winner(board):
     Retorna el ganador del juego
     """
     if terminal(board) and utility(board)==1:
-      return player(board)
+      return X
     if terminal(board) and utility(board)==-1:
-      return player(board)
-    if terminal(board) and utility(board)==0:
+      return O
+    else:
       return None
 
 
@@ -81,7 +81,7 @@ def terminal(board):
                 s=1
     if s==0 :
         return True
-    if utility(board) ==1 or utility(board)==-1:
+    if (utility(board) ==1) or (utility(board)==-1):
        return True
     else:
        return False
@@ -89,15 +89,15 @@ def terminal(board):
     Retorna True si el juego se acabó y False si continua.
     """
 def utility(board):
-    t=0
+    #t=0
     #Para X
     #Comprobar lineas horizontales
     for i in range(0,3):
-      if board[i][0] == X and board[i][1] == X and board[i][2] == X:
+      if (board[i][0] == X) and (board[i][1] == X) and (board[i][2] == X):
         return 1
     #Comprobar lineas verticales
     for j in range(0,3):
-      if board[0][j] == X and board[1][j] == X and board[2][j] == X:
+      if (board[0][j] == X) and (board[1][j] == X) and (board[2][j] == X):
         return 1
     #Comprobar diagonales
     if (board[0][0] == X and board[1][1] == X and board[2][2] == X) or (board[2][0] == X and board[1][1] == X and board[0][2] == X):
@@ -118,9 +118,9 @@ def utility(board):
 
    
    # Como el return automaticaente termina la lectura del código si se llega a esta linea es porque nadie ganó en el estado terminal
-    if t ==0:
-       return 0
-    #return 0
+    #if t ==0:
+       #return 0
+    return 0
 
     #Retorna 1 si X ganó el juego, -1 si O ganó, y 0 si empatan.
     
@@ -148,10 +148,13 @@ def minimax(board):
    if terminal(board):
       return None
    elif player(board)==X:
+      if board ==initial_state():
+         return (1,2)
       v = -math.inf
       mejorJugada = ()
       for action in actions(board):
          puntaje = max_value(result(board,action))
+         print(puntaje)
          if puntaje > v:
             v = puntaje
             mejorJugada = action
@@ -159,8 +162,10 @@ def minimax(board):
    elif player(board)==O:
       v = math.inf
       mejorJugada = ()
+      print('otro')
       for action in actions(board):
          puntaje = min_value(result(board,action))
+         print(action)
          if v > puntaje:
             v = puntaje
             mejorJugada = action
